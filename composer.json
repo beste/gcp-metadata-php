@@ -10,6 +10,12 @@
             "email": "jerome@gamez.name"
         }
     ],
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/jeromegamez"
+        }
+    ],
     "require": {
         "php": "^7.4|^8.0",
         "guzzlehttp/guzzle": "^6.5.8|^7.4.5",
