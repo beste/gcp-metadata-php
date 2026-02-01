@@ -1,7 +1,22 @@
-name: Unit Tests
+name: Tests
 
 on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/tests.yml'
+      - 'composer.json'
+      - 'phpstan.neon.dist'
   push:
+    branches: ['8.x']
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/tests.yml'
+      - 'composer.json'
+      - 'phpstan.neon.dist'
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -14,7 +29,7 @@ jobs:
 
     strategy:
       matrix:
-        php: [7.4, 8.0, 8.1]
+        php: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.6]
         stability: [lowest, stable]
 
     env:
