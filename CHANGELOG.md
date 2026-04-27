@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* Drop support for PHP <8.3
+
 ## 1.3.2 - 2022-06-22
 
 * Raised minimum version of Guzzle to address [CVE-2022-31090](https://github.com/advisories/GHSA-25mq-v84q-4j7r) 
