@@ -13,23 +13,15 @@ use Psr\Http\Message\ResponseInterface;
 
 class GcpMetadata
 {
-    public const baseUrl = 'http://169.254.169.254/computeMetadata/v1/';
-    public const flavorHeaderName = 'Metadata-Flavor';
-    public const flavorHeaderValue = 'Google';
+    public const string baseUrl = 'http://169.254.169.254/computeMetadata/v1/';
+    public const string flavorHeaderName = 'Metadata-Flavor';
+    public const string flavorHeaderValue = 'Google';
 
-    /**
-     * @var ClientInterface|null
-     */
-    private $client;
+    private ?bool $isAvailable = null;
 
-    /**
-     * @var null|bool
-     */
-    private $isAvailable;
-
-    public function __construct(ClientInterface $client = null)
+    public function __construct(private ?ClientInterface $client = null)
     {
-        $this->client = $client ?? $this->createClient();
+        $this->client ??= $this->createClient();
     }
 
     private function createClient(): Client
