@@ -27,12 +27,8 @@ jobs:
 
     strategy:
       matrix:
-        php: [8.3, 8.4, 8.5]
+        php: [8.3, 8.4, 8.5, 8.6]
         stability: [lowest, stable]
-        include:
-          - php: "8.6"
-            stability: stable
-            composer-options: "--ignore-platform-req=php+"
 
     env:
       extensions: dom, mbstring, xml
@@ -80,7 +76,7 @@ jobs:
           restore-keys: ${{matrix.php}}-${{matrix.stability}}-composer-
 
       - name: Install dependencies
-        run: composer update --prefer-${{matrix.stability}} --prefer-dist --no-interaction --no-suggest --no-progress ${{ matrix.composer-options }}
+        run: composer update --prefer-${{matrix.stability}} --prefer-dist --no-interaction --no-suggest --no-progress
 
       - name: Setup Problem Matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
