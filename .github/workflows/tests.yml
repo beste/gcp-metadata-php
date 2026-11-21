@@ -20,6 +20,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   unit-tests:
     name: PHP ${{matrix.php}}, ${{matrix.stability}} deps
@@ -36,25 +39,27 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup cache environment
         id: cache-env
-        uses: shivammathur/cache-extensions@v1
+        uses: shivammathur/cache-extensions@0769e8b0c165c62888174c0fe66557ca1616ae45 # v1
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
           key: ${{ env.key }}
 
       - name: Cache extensions
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ steps.cache-env.outputs.dir }}
           key: ${{ steps.cache-env.outputs.key }}
           restore-keys: ${{ steps.cache-env.outputs.key }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
@@ -69,7 +74,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
 
       - name: Cache dependencies
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{steps.composer-cache.outputs.dir}}
           key: ${{matrix.php}}-composer-${{matrix.stability}}-${{hashFiles('**/composer.json')}}
